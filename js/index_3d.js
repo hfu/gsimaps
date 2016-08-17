@@ -1,15 +1,15 @@
-function INCLUDE(){  
+function INCLUDE(){
     var dir     = "./js.lib/";
-    var scripts = new Array(  
+    var scripts = new Array(
           "html2canvas.js"
         , "togeojson.js"
-    );  
-    for(var i = 0; i < scripts.length; i++) {  
-        document.write("<script type='text\/javascript' src='" + dir + scripts[i] + "'><\/script>");  
+    );
+    for(var i = 0; i < scripts.length; i++) {
+        document.write("<script type='text\/javascript' src='" + dir + scripts[i] + "'><\/script>");
     }
 };
 
-INCLUDE(); 
+INCLUDE();
 
 /*-----------------------------------------------------------------------------------------------*
  * 地理院地図：style.js 用ラッパー関数
@@ -64,23 +64,23 @@ var args                                = null;
 /*-----------------------------------------------------------------------------------------------*/
 var vLayers                             = null;
                                             /* レイヤー配列
-                                                id          : 
-                                                url         : 
-                                                url_type    : 
-                                                url_ext     : 
-                                                url_style   : 
-                                                z           : 
-                                                x           : 
-                                                y           : 
-                                                size        : 
-                                                zoom        : 
-                                                zoom_x      : 
-                                                zoom_y      : 
-                                                zoom_min    : 
-                                                zoom_max    : 
-                                                zoom_native : 
-                                                opacity     : 
-                                                grayscale   : 
+                                                id          :
+                                                url         :
+                                                url_type    :
+                                                url_ext     :
+                                                url_style   :
+                                                z           :
+                                                x           :
+                                                y           :
+                                                size        :
+                                                zoom        :
+                                                zoom_x      :
+                                                zoom_y      :
+                                                zoom_min    :
+                                                zoom_max    :
+                                                zoom_native :
+                                                opacity     :
+                                                grayscale   :
                                             */
 var oLayersTM                           = null;
 var vLayersTM                           = 100;
@@ -370,7 +370,7 @@ function InitGet(){
             ret["trim_y_e"] = 256 - nCTYS_PXE_E; // 下トリムピクセル
             ret["trim_y_w"] = ret["trim_n"] * 256; // 幅トリムピクセル
             ret["trim_y_h"] = ret["trim_n"] * 256; // 高トリムピクセル
-            
+
             var vWP = ret["trim_n"] * 256;
             var vWC = ret["tile_n_px"];
             var vT  = Math.ceil((vWP - vWC) * 0.5);
@@ -387,8 +387,8 @@ function InitGet(){
             ret["trim_y_s"] += vT;
             ret["trim_y_e"] += vT;
             ret["trim_y_w"] = Math.ceil(vWC * 0.5) * 2;
-            ret["trim_y_h"] = Math.ceil(vWC * 0.5) * 2;             
-            
+            ret["trim_y_h"] = Math.ceil(vWC * 0.5) * 2;
+
             vTextureCanvas_W = 256 * ret["tile_n"];
             vTextureCanvas_H = 256 * ret["tile_n"];
         }
@@ -432,7 +432,7 @@ function InitLoadLayersTxt(){
 	        ,load   : null
 	        ,layers : null
         };
-        _Load_Data.push(d);    
+        _Load_Data.push(d);
     }
 
     for(n = 0; n < CONFIG.layers.length; n++){
@@ -441,7 +441,7 @@ function InitLoadLayersTxt(){
 	        ,load   : null
 	        ,layers : null
         };
-        _Load_Data.push(d);  
+        _Load_Data.push(d);
     }
 
     InitLoadLayersTxt_Proc();
@@ -520,7 +520,7 @@ var InitLoadLayersTxt_Proc_Error = function(){
 var InitLoadLayersTxt_ProcSrc = function(){
     if(_Load_DataSrc.length == 0){
         var f = false;
-        
+
         vLayers     = null;
         nLayersData = 0;
 
@@ -703,7 +703,7 @@ function InitProgress(o){
         oProgressBar.style.margin   = "0 auto";
         oProgressBar.style.width    = "300px";
         oProgressBar.style.height   = "20px";
-        oProgressBar.style.zIndex   = "256";	    
+        oProgressBar.style.zIndex   = "256";
     }
 
     if(oProgressBar != null){
@@ -773,7 +773,7 @@ function InitLoad(){
 	oRenderer.setSize(vFrame3D_W, vFrame3D_H);
     oRenderer.setClearColor(0xe6e6fa, 1.0)
 	//oRenderer.shadowMapEnabled = true;
-	oFrame3D.appendChild(oRenderer.domElement);   
+	oFrame3D.appendChild(oRenderer.domElement);
 
 	RequestLayers(vLayers, args["z"], args["lon_lt_x"], args["lat_lt_y"], args["tile_n"]);
 
@@ -820,7 +820,7 @@ function InitLoadLayers(){
                         vTextureCanvas_H = args["trim_y_h"];
                         var oTextureCanvas_2D = oTextureCanvas.getContext("2d");
                         var imageData = oTextureCanvas_2D.getImageData(args["trim_x_s"], args["trim_y_s"], vTextureCanvas_W, vTextureCanvas_H);
-                        
+
                         oTextureCanvas.width  = vTextureCanvas_W;
                         oTextureCanvas.height = vTextureCanvas_H;
                         oTextureCanvas_2D = oTextureCanvas.getContext("2d");
@@ -928,7 +928,7 @@ function RequestLayers(url, z, x, y, nTilesOTS){
 
             var dem_d = { data : null, z : 0, x : 0, y : 0, x14 :0, y14 : 0 };
             var dem_z = z;  dem_d.z = dem_z;
-            var dem_x = xx; dem_d.x = dem_x;                
+            var dem_x = xx; dem_d.x = dem_x;
             var dem_y = yy; dem_d.y = dem_y;
             if(dem_z > vDemUrl_maxZoom){
                 var dem_n = GetTileN(z, vDemUrl_maxZoom, xx, yy);
@@ -1175,7 +1175,7 @@ function RequestLayersVectorStyleSet(vLayersData_Vector){
 
     if(data && data != null && data != ""){
         data = JSON.parse(data);
-        
+
         if(data && data.features){
             var id = vLayersData_Vector.id;
             if(vLayersData_VectorStyle){
@@ -1183,8 +1183,8 @@ function RequestLayersVectorStyleSet(vLayersData_Vector){
                     var vStyle = vLayersData_VectorStyle[id].data;
                     if(vStyle){
                         if(vStyle.geojsonOptions){
-                            if(vStyle.geojsonOptions.style          || 
-                               vStyle.geojsonOptions.pointToLayer   || 
+                            if(vStyle.geojsonOptions.style          ||
+                               vStyle.geojsonOptions.pointToLayer   ||
                                vStyle.geojsonOptions.onEachFeature
                             ){
                                 var vDataFeatures = data.features;
@@ -1398,7 +1398,7 @@ CanvasRenderingContext2D.prototype.fillTextVertical = function(text, x, y, deg){
     CanvasRenderingContext2D.prototype._Text = function(text){
         var ret = [];
 
-        var _CL = new Array(); 
+        var _CL = new Array();
 
         _CL.push(this._TextData(_CL, "Bracket" , "‘“（〔［｛〈《「『【⦅〘〖«〝" , 1.3));
         _CL.push(this._TextData(_CL, "Bracket" , "’”）〕］｝〉》」』】⦆〙〗≫〟", 1  ));
@@ -1434,7 +1434,7 @@ CanvasRenderingContext2D.prototype.fillTextVertical = function(text, x, y, deg){
 
             var pos = _CLAll.indexOf(this._text_c);
             if(pos == -1){
-                 ret.push(this.Text_TypePlane()); 
+                 ret.push(this.Text_TypePlane());
             }
             else{
                 var fCL = false;
@@ -1454,7 +1454,7 @@ CanvasRenderingContext2D.prototype.fillTextVertical = function(text, x, y, deg){
                     ret.push(this.Text_TypePlane());
                 }
             }
-        }       
+        }
         return ret;
     };
 
@@ -1678,7 +1678,7 @@ CanvasRenderingContext2D.prototype.fillTextVertical = function(text, x, y, deg){
 };
 
 function RequestLayersVectorStyleSetColorToHex(color) {
-    
+
     if(color.substr(0, 1) == "#" && color.length == 4){
         var r = color.substr(1, 1);
         var g = color.substr(2, 1);
@@ -1777,7 +1777,7 @@ function RequestTileDemResult(o){
                 )
                 .fail(
                     function(data, status, error){
-                        vTilesDem.push(""); 
+                        vTilesDem.push("");
                     }
                 )
                 .always(
@@ -1798,7 +1798,7 @@ function RequestTileDemResult(o){
 
                 var oCanvasTile        = document.createElement("canvas");
                     oCanvasTile.width  = this.width;
-                    oCanvasTile.height = this.height;  
+                    oCanvasTile.height = this.height;
                 var oCanvasTileContext = oCanvasTile.getContext("2d");
                 oCanvasTileContext.drawImage(this, 0, 0);
                 for(var ny = 0; ny < oCanvasTile.height; ny++){
@@ -2030,7 +2030,7 @@ function LoadLayersProc(oTextureCanvas_2D, x, y, wTileImg, hTileImg){
 
         if(vURLType == "tile"){
             var strRgx = null;
- 	        strRgx = vURL.replace("{z}", "(\\d\+)").replace("{x}", "\\d\+"  ).replace("{y}", "\\d\+"  ); var rgxZfromURL = new RegExp(strRgx); 
+ 	        strRgx = vURL.replace("{z}", "(\\d\+)").replace("{x}", "\\d\+"  ).replace("{y}", "\\d\+"  ); var rgxZfromURL = new RegExp(strRgx);
 	        strRgx = vURL.replace("{z}", "\\d\+"  ).replace("{x}", "(\\d\+)").replace("{y}", "\\d\+"  ); var rgxXfromURL = new RegExp(strRgx);
 	        strRgx = vURL.replace("{z}", "\\d\+"  ).replace("{x}", "\\d\+"  ).replace("{y}", "(\\d\+)"); var rgxYfromURL = new RegExp(strRgx);
 
@@ -2124,7 +2124,7 @@ function LoadLayersProc(oTextureCanvas_2D, x, y, wTileImg, hTileImg){
             }
         }
     }
- 
+
     if(fProc){
         // Layer：Vector
         LoadLayers_VectorsOpener(oTextureCanvas_2D);
@@ -2163,8 +2163,8 @@ function LoadLayersProcVectorDataKML(data){
                                 data_style = data_style.eq(0);
                                 if(data_style){
                                     var _markerType = data_type;
-                                    if(_markerType == "Point"      || 
-                                       _markerType == "LineString" || 
+                                    if(_markerType == "Point"      ||
+                                       _markerType == "LineString" ||
                                        _markerType == "Polygon"
                                     ){
                                         if(_markerType == "Point"){
@@ -2213,7 +2213,7 @@ function LoadLayersProcVectorDataKML_properties(data, data_style){
         var vKey = "";
         var _color = data_style.find("LineStyle").find("color").text();
         var _width = data_style.find("LineStyle").find("width").text();
-        if(_color){ 
+        if(_color){
             _color = LoadLayersProcVectorDataKML_properties_color(_color);
             if(_color != null){
                 data.properties._color   = _color.color;
@@ -2294,7 +2294,7 @@ function LoadLayersCanvas(oTextureCanvas_2D, vUrl, vTile, nx, ny, wTileImg, hTil
                 var alphaCh = Math.round(255 * vUrl.opacity); // 透過度をアルファチャンネルの値に変換
                 for(var i = 0; i < data.length; i += 4){  / /各ピクセルのアルファチャンネルの数実行
 	                data[i + 3] = alphaCh;
-                } 
+                }
                 */
 
                 oCanvasGrayScale = imageData;
@@ -2389,7 +2389,7 @@ function LoadLayers_Vectors(oCanvas, oData, vUrl){
                                 var iDataName = "";
                                 if(vData.properties["_markerType"] != "Font"){
                                     iDataName = "_text";
-                                }                                
+                                }
 
                                 var vDataGeometryLon = parseFloat(vDataGeometryArray[0]);
                                 var vDataGeometryLat = parseFloat(vDataGeometryArray[1]);
@@ -2409,7 +2409,7 @@ function LoadLayers_Vectors(oCanvas, oData, vUrl){
                                 var vShadow            = vData["properties"][iDataName + "_Shadow"];
                                 var vShadowSize        = vData["properties"][iDataName + "_Shadow_size"];
                                 var vShadowFontColor   = vData["properties"][iDataName + "_Shadow_fontColor"];
-                                
+
                                 vXA = 0; if(vData["properties"][iDataName + "_anchorL"] != null){ vXA = vData["properties"][iDataName + "_anchorL"]; }
                                 vYA = 0; if(vData["properties"][iDataName + "_anchorT"] != null){ vYA = vData["properties"][iDataName + "_anchorT"]; }
 
@@ -2444,7 +2444,7 @@ function LoadLayers_Vectors(oCanvas, oData, vUrl){
                                         if(oCanvas.lineWidth == 1){
                                             oCanvas.fillText(vText, (vX - vXA), (vY - vYA) + vTextFontSize);
                                         }
-                                        else{                                        
+                                        else{
                                             oCanvas.strokeText(vText, (vX - vXA), (vY - vYA) + vTextFontSize);
                                         }
 
@@ -2512,7 +2512,7 @@ function LoadLayers_Vectors(oCanvas, oData, vUrl){
                                 var vH   = 10; if(vData["properties"]["_iconSize"]   != null){ vH  = Math.floor(vRPX * parseInt(vData["properties"]["_iconSize"][1])); }
                                 var vXA  =  0; if(vData["properties"]["_iconAnchor"] != null){ vXA = parseInt(vData["properties"]["_iconAnchor"][0], 10); }
                                 var vYA  =  0; if(vData["properties"]["_iconAnchor"] != null){ vYA = parseInt(vData["properties"]["_iconAnchor"][1], 10); }
-       
+
                                 var vImgOpacity = 1.0;
                                 if(vUrl != null){
                                     vImgOpacity = vUrl.opacity;
@@ -2546,7 +2546,7 @@ function LoadLayers_Vectors(oCanvas, oData, vUrl){
                             }
                             /*-------------------------------------------------------------------------------------------------------*/
                             if(vData.properties["_markerType"] == "Circle"       ||
-                               vData.properties["_markerType"] == "CircleMarker"    
+                               vData.properties["_markerType"] == "CircleMarker"
                             ){
                                 var vDataGeometryLon = parseFloat(vDataGeometryArray[0]);
                                 var vDataGeometryLat = parseFloat(vDataGeometryArray[1]);
@@ -2670,9 +2670,9 @@ function LoadLayers_Vectors(oCanvas, oData, vUrl){
                                         oCanvas.stroke();
                                     }
                                     else if(vDataType == "Polygon" || vDataType == "MultiPolygon"){
-                                        oCanvas.closePath(); 
+                                        oCanvas.closePath();
                                         if(nGeometry - 1 == 0){
-                                            if(nFig == 0){ oCanvas.fill();   }                       
+                                            if(nFig == 0){ oCanvas.fill();   }
                                             else         { oCanvas.stroke(); }
                                         }
                                         else{
@@ -2705,7 +2705,7 @@ function LoadLayers_Vectors(oCanvas, oData, vUrl){
     var ret = false;
     if(vVectorHTML.v != null){
         ret = true;
-    }    
+    }
     return ret;
 };
 
@@ -2827,7 +2827,7 @@ function LoadLayers_Vevtors_PropertiesColor(v){
     var g = 0;
     var b = 0;
     var a = 0;
-    
+
     try{
         if(/^[0-9a-fA-F]{6}$/.test(v)){
             r = parseInt(v.substr(0,2), 16);
@@ -2950,7 +2950,7 @@ function LoadScene(){
 	    texture.needsUpdate = true;
         texture.minFilter = THREE.LinearFilter;
         texture.magFilter = THREE.LinearFilter;
-        
+
 	    material = new THREE.MeshBasicMaterial({map: texture});
     }
     else{
@@ -2960,7 +2960,7 @@ function LoadScene(){
 	// 地形表面のメッシュを作成、登録する。
 	oSceneMesh = new THREE.Mesh(geometry, material);
 	oScene.add(oSceneMesh);
-	
+
 	LoadSceneMeshBase();
 
 	// 標高値に合わせてメッシュ形状を変化させる。
@@ -2974,7 +2974,7 @@ function LoadScene(){
 		oCameraCtrl.target.z = parseFloat(args["ctz"]);
 	}
 
-    InitProgress(); 
+    InitProgress();
 
     oFrame.style.display = "block";
     EvtResize();
@@ -3057,9 +3057,9 @@ function LoadSceneMeshBase(){
 /*-----------------------------------------------------------------------------------------------*/
 
 // 標高値に合わせてジオメトリの形状を変更する。
-function SceneGeometryZ(){  
+function SceneGeometryZ(){
     var n  = 0;
-    var nz = 0;  
+    var nz = 0;
 	for(ny = 0; ny <= 256; ny++){
         for(nx = 0; nx <= 256; nx++){
             nz = ny * 257 + nx;

@@ -204,9 +204,9 @@ function Download_Image(v){
         if(data_n > 0){
             var data_buff = new ArrayBuffer(data_n);
             var data_blob = new Uint8Array(data_buff);
-            
+
             var i = 0;
-            
+
 	        for(i = 0; i < data_n; i++){
 		        data_blob[i] = data.charCodeAt(i);
 	        }
@@ -230,7 +230,7 @@ function Download_STL(vDem, vZRate, vDistance){
     var ret = "";
     /*....................................................................
      * TEMPLATE
-     *....................................................................*/    
+     *....................................................................*/
     ret += DownloadTextLine("solid 3d_data");
     ret += DownloadTextLine("{stlPointList}");
     ret += DownloadTextLine("endsolid");
@@ -353,8 +353,8 @@ function Download_ConvertFromDem(type, vDem, vZRate, vDistance){
     }
 
     var colX = vDem[0].length
-    var colY = vDem.length;
-    /*....................................................................*/    
+    var colY = vDem.length * 5 / 8;
+    /*....................................................................*/
     var modelSizeN = modelSize * colX / Math.max(colX, colY); // モデルのサイズ[MAX]（mm）
     var vDemXY     = modelSizeN / colX;		                  // DEMの1pxあたりの長さ          (mm) (平面方向)
     var vDemZ      = modelSizeN / vDistance;		          // DEMの1m あたりの模型上での長さ(mm) (高さ方向) == 縮尺
@@ -366,10 +366,10 @@ function Download_ConvertFromDem(type, vDem, vZRate, vDistance){
     }
     var vCX        = Math.round(modelSizeX / 2);              // 中央のX座標（データ容量削減のために四捨五入）for STL
     var vCZ        = Math.round(modelSizeY / 2);              // 中央のY座標（データ容量削減のために四捨五入）for STL
-    /*....................................................................*/    
+    /*....................................................................*/
     var vDemT = transpose(vDem);
         vDem  = vDemT;
-    /*....................................................................*/    
+    /*....................................................................*/
     if(type == "STL"){
         // 表面
         for(nY = 0; nY < colY - 1; nY++){
@@ -382,12 +382,12 @@ function Download_ConvertFromDem(type, vDem, vZRate, vDistance){
 		        // ベクトルのXYZ成分をそれぞれ計算
 		        var x12 = x2 - x1;   var y12 = y2 - y1;   var z12 = z2 - z1;
 		        var x13 = x3 - x1;   var y13 = y3 - y1;   var z13 = z3 - z1;
-		
+
 		        // 外積の成分を計算
 		        var nv123X = y12 * z13 - z12 - y13;
 		        var nv123Y = z12 * x13 - x12 * z13;
 		        var nv123Z = x12 * y13 - y12 * x13;
-		
+
 		        // ベクトルの長さを求める（長さ1のベクトルにするため）
 		        var nv123L = round(Math.sqrt(Math.pow(nv123X, 2) + Math.pow(nv123Y, 2) + Math.pow(nv123Z, 2)), 8);
 
@@ -404,13 +404,13 @@ function Download_ConvertFromDem(type, vDem, vZRate, vDistance){
 		        var nv456X = y45 * z46 - z45 - y46;
 		        var nv456Y = z45 * x46 - x45 * z46;
 		        var nv456Z = x45 * y46 - y45 * x46;
-		
+
 		        // ベクトルの長さを求める（長さ1のベクトルにするため）
 		        var nv456L = round(Math.sqrt(Math.pow(nv456X, 2) + Math.pow(nv456Y, 2) + Math.pow(nv456Z, 2)), 8);
 
 		        stlPointList += "\tfacet normal " + nv123X / nv123L + " " + nv123Y / nv123L + " " + nv123Z / nv123L + "\n";
 		        stlPointList += "\t\touter loop\n";
-	
+
 		        stlPointList += "\t\t\t vertex " + x1 + " " + y1 + " " + z1 + "\n";
 		        stlPointList += "\t\t\t vertex " + x2 + " " + y2 + " " + z2  + "\n";
 		        stlPointList += "\t\t\t vertex " + x3 + " " + y3 + " " + z3  + "\n";
@@ -458,7 +458,7 @@ function Download_ConvertFromDem(type, vDem, vZRate, vDistance){
 
 	        stlPointList += "\t\tendloop\n";
 	        stlPointList += "\tendfacet\n";
-	
+
 	        // 底面
 	        stlPointList += "\tfacet normal 0 -1 0\n";
 	        stlPointList += "\t\touter loop\n";
@@ -595,18 +595,18 @@ function Download_ConvertFromDem(type, vDem, vZRate, vDistance){
         }
         stlPointList = stlPointList.substr(0, (stlPointList.length - 1));
     }
-    /*....................................................................*/    
+    /*....................................................................*/
     else if(type == "WRL"){
         // ポイントリスト
         for(nX = 0; nX < colX; nX++){
             for(nY = 0; nY < colY; nY++){
                 wrlPointList1 += "\t\t\t\t\t\t" + (modelSizeX * (-1) + vDemXY * nY) + " " + (modelSizeH + vDem[nY][nX] * vDemZ * vZRate) + " " + (vDemXY * nX) + ",\n";
 	        }
-        }        
-        for(nY = 0; nY < colY    ; nY++){ wrlPointList1 += "\t\t\t\t\t\t" + (modelSizeX * (-1)                      ) + " 0 " + (vDemXY * nY) + ",\n";         } // ポイントリスト：左面        
-        for(nY = 0; nY < colY    ; nY++){ wrlPointList1 += "\t\t\t\t\t\t" + (modelSizeX * (-1) + vDemXY * (colX - 1)) + " 0 " + (vDemXY * nY) + ",\n";         } // ポイントリスト：右面        
-        for(nX = 1; nX < colX - 1; nX++){ wrlPointList1 += "\t\t\t\t\t\t" + (modelSizeX * (-1) + vDemXY * nX        ) + " 0 0,\n";                             } // ポイントリスト：奥面        
-        for(nX = 1; nX < colX - 1; nX++){ wrlPointList1 += "\t\t\t\t\t\t" + (modelSizeX * (-1) + vDemXY * nX        ) + " 0 " + (vDemXY * (colY - 1)) + ",\n"; } // ポイントリスト：手前面        
+        }
+        for(nY = 0; nY < colY    ; nY++){ wrlPointList1 += "\t\t\t\t\t\t" + (modelSizeX * (-1)                      ) + " 0 " + (vDemXY * nY) + ",\n";         } // ポイントリスト：左面
+        for(nY = 0; nY < colY    ; nY++){ wrlPointList1 += "\t\t\t\t\t\t" + (modelSizeX * (-1) + vDemXY * (colX - 1)) + " 0 " + (vDemXY * nY) + ",\n";         } // ポイントリスト：右面
+        for(nX = 1; nX < colX - 1; nX++){ wrlPointList1 += "\t\t\t\t\t\t" + (modelSizeX * (-1) + vDemXY * nX        ) + " 0 0,\n";                             } // ポイントリスト：奥面
+        for(nX = 1; nX < colX - 1; nX++){ wrlPointList1 += "\t\t\t\t\t\t" + (modelSizeX * (-1) + vDemXY * nX        ) + " 0 " + (vDemXY * (colY - 1)) + ",\n"; } // ポイントリスト：手前面
         wrlPointList1 += "\t\t\t\t\t\t" + (Math.round(modelSizeX * (-1) / 2)) + " 0 " + (Math.round(modelSizeY / 2));                                            // ポイントリスト：底面の中心点
 
         // 面リスト：表面
@@ -662,7 +662,7 @@ function Download_ConvertFromDem(type, vDem, vZRate, vDistance){
         }
         wrlPointCoordtList = wrlPointCoordtList.substr(0, (wrlPointCoordtList.length - 2));
     }
-    /*....................................................................*/    
+    /*....................................................................*/
     return {
       stlPointList       : stlPointList
     , wrlPointList1      : wrlPointList1
